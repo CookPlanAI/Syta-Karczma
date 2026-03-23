@@ -916,7 +916,7 @@
           <strong>📍 ul. Weselna 12, Łódź</strong><br/>
           dzielnica Bałuty<br/><br/>
           📞 <strong>+48 42 123 45 67</strong><br/>
-          📧 kontakt@sytakarczma.pl<br/><br/>
+          📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a5155544e5b514e7a49434e5b515b485940575b144a56">[email&#160;protected]</a><br/><br/>
           🅿️ Parking dla 40 samochodów
         </p>
         <a href="https://maps.google.com" target="_blank" class="map-btn">🗺️ Google Maps</a>
@@ -960,7 +960,7 @@
     <button id="chat-btn" onclick="toggleChat()">🌸</button>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── STAN BOTA ──
     var step = 0;
     var userData = {};
@@ -1103,6 +1103,20 @@
     }
 
     function showFinal() {
+      // Wysylamy dane do Make
+      fetch('https://hook.eu1.make.com/6t4qr7foxqwkpoja9bxiyqxvcauckyvo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uroczystosc: userData.urocz,
+          liczba_gosci: userData.goscie,
+          termin: userData.data,
+          imie: userData.imie,
+          telefon: userData.tel,
+          zrodlo: 'Syta Karczma chatbot'
+        })
+      }).catch(function(e) { console.log('Webhook error:', e); });
+
       showTyping();
       setTimeout(function() {
         removeTyping();
@@ -1118,16 +1132,4 @@
         );
         document.getElementById('chat-input').disabled = true;
         document.getElementById('chat-input').placeholder = 'Dziękujemy za zapytanie!';
-      }, 1200);
-    }
-
-    // Auto-show bubble after 3s
-    setTimeout(function() {
-      if (!chatOpen && !bubbleHidden) {
-        document.getElementById('chat-bubble').style.display = 'block';
-      }
-    }, 3000);
-  </script>
-
-</body>
-</html>
+      }, 1200)
