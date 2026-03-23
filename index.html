@@ -960,14 +960,14 @@
     <button id="chat-btn" onclick="toggleChat()">🌸</button>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
     // ── STAN BOTA ──
-    var step = 0;
-    var userData = {};
-    var chatOpen = false;
-    var bubbleHidden = false;
+    window.step = 0;
+    window.userData = {};
+    window.chatOpen = false;
+    window.bubbleHidden = false;
 
-    var flow = [
+    window.flow = [
       {
         type: 'buttons',
         msg: 'Dzień dobry! 🌸 Witamy w Sytej Karczmie.\n\nJaką uroczystość Państwo planują?',
@@ -1000,7 +1000,7 @@
       }
     ];
 
-    function openChat() {
+    window.openChat = function() {
       document.getElementById('chat-window').classList.add('open');
       document.getElementById('chat-btn').innerHTML = '✕';
       chatOpen = true;
@@ -1013,17 +1013,17 @@
       }
     }
 
-    function closeChat() {
+    window.closeChat = function() {
       document.getElementById('chat-window').classList.remove('open');
       document.getElementById('chat-btn').innerHTML = '🌸';
       chatOpen = false;
     }
 
-    function toggleChat() {
+    window.toggleChat = function() {
       if (chatOpen) closeChat(); else openChat();
     }
 
-    function addMsg(text, type) {
+    window.addMsg = function(text, type) {
       var msgs = document.getElementById('chat-messages');
       var div = document.createElement('div');
       div.className = 'msg msg-' + type;
@@ -1033,7 +1033,7 @@
       return div;
     }
 
-    function showTyping() {
+    window.showTyping = function() {
       var msgs = document.getElementById('chat-messages');
       var div = document.createElement('div');
       div.className = 'msg msg-bot typing';
@@ -1043,12 +1043,12 @@
       msgs.scrollTop = msgs.scrollHeight;
     }
 
-    function removeTyping() {
+    window.removeTyping = function() {
       var t = document.getElementById('typing');
       if (t) t.remove();
     }
 
-    function showStep() {
+    window.showStep = function() {
       if (step >= flow.length) return;
       var s = flow[step];
       showTyping();
@@ -1084,7 +1084,7 @@
       }, 900);
     }
 
-    function sendMsg() {
+    window.sendMsg = function() {
       if (step >= flow.length) return;
       var s = flow[step];
       if (s.type === 'buttons') return;
@@ -1102,7 +1102,7 @@
       }
     }
 
-    function showFinal() {
+    window.showFinal = function() {
       // Wysylamy dane do Make
       fetch('https://hook.eu1.make.com/6t4qr7foxqwkpoja9bxiyqxvcauckyvo', {
         method: 'POST',
