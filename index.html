@@ -1133,3 +1133,15 @@
         document.getElementById('chat-input').disabled = true;
         document.getElementById('chat-input').placeholder = 'Dziękujemy za zapytanie!';
       }, 1200)
+    }
+
+    // Auto-show bubble after 3s
+    setTimeout(function() {
+      if (!chatOpen && !bubbleHidden) {
+        document.getElementById('chat-bubble').style.display = 'block';
+      }
+    }, 3000);
+  </script>
+
+</body>
+</html>
