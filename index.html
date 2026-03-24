@@ -916,7 +916,7 @@
           <strong>📍 ul. Weselna 12, Łódź</strong><br/>
           dzielnica Bałuty<br/><br/>
           📞 <strong>+48 42 123 45 67</strong><br/>
-          📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a5155544e5b514e7a49434e5b515b485940575b144a56">[email&#160;protected]</a><br/><br/>
+          📧 kontakt@sytakarczma.pl<br/><br/>
           🅿️ Parking dla 40 samochodów
         </p>
         <a href="https://maps.google.com" target="_blank" class="map-btn">🗺️ Google Maps</a>
@@ -960,7 +960,7 @@
     <button id="chat-btn" onclick="toggleChat()">🌸</button>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+  <script>
     // ── STAN BOTA ──
     window.step = 0;
     window.userData = {};
@@ -997,6 +997,12 @@
         msg: 'Proszę podać numer telefonu — oddzwonimy w ciągu 24 godzin! 📞',
         key: 'tel',
         placeholder: 'np. 600 123 456'
+      },
+      {
+        type: 'input',
+        msg: 'Proszę podać adres e-mail — wyślemy potwierdzenie zapytania! 📧',
+        key: 'email',
+        placeholder: 'np. jan@kowalski.pl'
       }
     ];
 
@@ -1113,6 +1119,7 @@
           termin: userData.data,
           imie: userData.imie,
           telefon: userData.tel,
+          email: userData.email,
           zrodlo: 'Syta Karczma chatbot'
         })
       }).catch(function(e) { console.log('Webhook error:', e); });
@@ -1126,7 +1133,8 @@
           '📋 <strong>' + userData.urocz + '</strong><br/>' +
           '👥 Liczba gości: <strong>' + userData.goscie + '</strong><br/>' +
           '📅 Termin: <strong>' + userData.data + '</strong><br/><br/>' +
-          'Oddzwonimy na numer <strong>' + userData.tel + '</strong> w ciągu 24 godzin.<br/><br/>' +
+          'Oddzwonimy na numer <strong>' + userData.tel + '</strong> w ciągu 24 godzin.<br/>' +
+          'Potwierdzenie wyślemy na <strong>' + userData.email + '</strong><br/><br/>' +
           '✦ Do zobaczenia w Sytej Karczmie! ✦',
           'bot'
         );
