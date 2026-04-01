@@ -752,6 +752,36 @@
       30% { transform: translateY(-6px); }
     }
 
+    /* ══════════════════════════════════
+       VAPI VOICE BUTTON — lewa strona
+    ══════════════════════════════════ */
+    #vapi-label {
+      position: fixed;
+      bottom: 100px;
+      left: 28px;
+      z-index: 9998;
+      background: var(--brown);
+      color: var(--white);
+      padding: 8px 14px;
+      border-radius: 8px 8px 8px 0;
+      font-size: 0.78rem;
+      font-family: 'Lato', sans-serif;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      pointer-events: none;
+      animation: fadeIn .5s ease 3s both;
+    }
+
+    #vapi-label::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 12px;
+      border-left: 8px solid transparent;
+      border-right: 0px solid transparent;
+      border-top: 8px solid var(--brown);
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -760,6 +790,7 @@
       .gallery-item:first-child { grid-row: auto; }
       .stat-item { padding: 18px 24px; }
       #chat-window { width: 320px; }
+      #vapi-label { display: none; }
     }
   </style>
 </head>
@@ -938,7 +969,7 @@
   </footer>
 
   <!-- ══════════════════════════════════
-       CHATBOT WIDGET
+       CHATBOT WIDGET (prawy dół)
   ══════════════════════════════════ -->
   <div id="chat-widget">
     <div id="chat-bubble">🌸 Sprawdź dostępność terminu!</div>
@@ -959,6 +990,12 @@
     </div>
     <button id="chat-btn" onclick="toggleChat()">🌸</button>
   </div>
+
+  <!-- ══════════════════════════════════
+       VAPI VOICE BOT (lewy dół)
+       Etykieta z dymkiem nad przyciskiem
+  ══════════════════════════════════ -->
+  <div id="vapi-label">🎙️ Zadzwoń głosowo — zapytaj o termin!</div>
 
   <script>
     // ── STAN BOTA ──
@@ -1109,7 +1146,6 @@
     }
 
     window.showFinal = function() {
-      // Wysylamy dane do Make
       fetch('https://hook.eu1.make.com/6t4qr7foxqwkpoja9bxiyqxvcauckyvo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1149,6 +1185,56 @@
         document.getElementById('chat-bubble').style.display = 'block';
       }
     }, 3000);
+
+    // Ukryj etykietę Vapi po 8s
+    setTimeout(function() {
+      var lbl = document.getElementById('vapi-label');
+      if (lbl) { lbl.style.opacity = '0'; lbl.style.transition = 'opacity 1s'; }
+    }, 8000);
+  </script>
+
+  <!-- ══════════════════════════════════
+       VAPI SDK — voice bot
+       Przycisk pojawia się w lewym dolnym rogu
+  ══════════════════════════════════ -->
+  <script>
+    (function(d, t) {
+      var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function() {
+        window.vapiSDK.run({
+          apiKey: "b364f8e7-6d7c-4446-9308-7f54a740ab26",
+          assistant: "ec8e84bc-ed95-4d66-aff6-69f4330607b4",
+          config: {
+            position: "bottom-left",
+            offset: "28px",
+            width: "60px",
+            height: "60px",
+            idle: {
+              color: "#C9A84C",
+              type: "round",
+              title: "Zadzwoń głosowo",
+              subtitle: "Zapytaj o wolny termin",
+              icon: "https://unpkg.com/lucide-static@0.321.0/icons/mic.svg"
+            },
+            loading: {
+              color: "#C9A84C",
+              title: "Łączenie...",
+              subtitle: "Chwilę proszę"
+            },
+            active: {
+              color: "#5C3D2E",
+              title: "Rozmowa w toku",
+              subtitle: "Kliknij aby zakończyć",
+              icon: "https://unpkg.com/lucide-static@0.321.0/icons/phone-off.svg"
+            }
+          }
+        });
+      };
+    })(document, "script");
   </script>
 
 </body>
